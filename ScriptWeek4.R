@@ -4,6 +4,7 @@
 ## load data.table package to use fread function
 ## load dplyr to use mutate function
 library(data.table)
+library(dplyr)
 
 ## load resource data used for naming
         ## activity mapping for assignment item 5
@@ -52,11 +53,16 @@ library(data.table)
        tbl_overall_activity <- merge(tbl_overall, activity, by.x="activity",by.y="index")
 ## remove the activity index that was used for the mapping to the activity name
        tbl_overall_activity <- select(tbl_overall_activity, -activity)
-       rm("tbl_overall","overall","activity","feature","sub_name")
+       rm("tbl_overall","activity","feature","sub_name")
        
 ## Item 5 of assignment - create a second independent tidy data with 
 ## the average of each variable for each activity and each subject
      grouped <- group_by(tbl_overall_activity,subject,ActivityName)
      grouped_average<-summarise_all(grouped,mean)
      rm("grouped")
+     
+## extract the data as csv
+     write.csv(tbl_overall_activity,"tbl_overall_activity.csv")
+     write.csv(grouped_average,"grouped_average.csv")   
+       
        
